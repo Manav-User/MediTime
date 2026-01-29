@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:medicinereminder/database/moor_database.dart';
+import 'package:medicinereminder/storage/local_storage_service.dart';
 import 'package:medicinereminder/notifications/NotificationManager.dart';
 
 class AddMedicine extends StatefulWidget {
   final double height;
-  final AppDatabase _database;
+  final LocalStorageService _storage;
   final NotificationManager manager;
-  AddMedicine(this.height, this._database, this.manager);
+  const AddMedicine(this.height, this._storage, this.manager);
 
   @override
   _AddMedicineState createState() => _AddMedicineState();
 }
 
 class _AddMedicineState extends State<AddMedicine> {
-  static final _formKey = new GlobalKey<FormState>();
-  String _name;
-  String _dose;
+  static final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _dose = '';
 
   int _selectedIndex = 0;
   List<String> _icons = [
@@ -78,20 +78,23 @@ class _AddMedicineState extends State<AddMedicine> {
             ),
             Container(
               width: double.infinity,
-              child: RaisedButton(
-                padding: EdgeInsets.all(15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(15),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                 ),
                 onPressed: () {
                   _submit(widget.manager);
                 },
-                color: Theme.of(context).accentColor,
-                textColor: Colors.white,
-                highlightColor: Theme.of(context).primaryColor,
                 child: Text(
                   'Add Medicine'.toUpperCase(),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -127,8 +130,9 @@ class _AddMedicineState extends State<AddMedicine> {
               labelText: 'Name',
               labelStyle: labelsStyle,
             ),
-            validator: (input) => (input.length < 5) ? 'Name is short' : null,
-            onSaved: (input) => _name = input,
+            validator: (input) =>
+                (input == null || input.length < 5) ? 'Name is short' : null,
+            onSaved: (input) => _name = input ?? '',
           ),
           TextFormField(
             style: TextStyle(fontSize: 25),
@@ -136,8 +140,9 @@ class _AddMedicineState extends State<AddMedicine> {
               labelText: 'Dose',
               labelStyle: labelsStyle,
             ),
-            validator: (input) => (input.length > 50) ? 'Dose is long' : null,
-            onSaved: (input) => _dose = input,
+            validator: (input) =>
+                (input == null || input.length > 50) ? 'Dose is long' : null,
+            onSaved: (input) => _dose = input ?? '',
           )
         ],
       ),
@@ -145,9 +150,9 @@ class _AddMedicineState extends State<AddMedicine> {
   }
 
   void _submit(NotificationManager manager) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       // form is validated
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
       print(_name);
       print(_dose);
       //show the time picker dialog
@@ -155,19 +160,22 @@ class _AddMedicineState extends State<AddMedicine> {
         initialTime: TimeOfDay.now(),
         context: context,
       ).then((selectedTime) async {
+        if (selectedTime == null) return;
         int hour = selectedTime.hour;
         int minute = selectedTime.minute;
         print(selectedTime);
-        // insert into database
-        var medicineId = await widget._database.insertMedicine(
-            MedicinesTableData(
-                name: _name,
-                dose: _dose,
-                image: 'assets/images/' + _icons[_selectedIndex]));
-        // sehdule the notification
+        // insert into local storage
+        final medicine = Medicine(
+          id: 0, // Will be assigned by storage
+          name: _name,
+          dose: _dose,
+          image: 'assets/images/${_icons[_selectedIndex]}',
+        );
+        var medicineId = await widget._storage.insertMedicine(medicine);
+        // schedule the notification
         manager.showNotificationDaily(medicineId, _name, _dose, hour, minute);
-        // The medicine Id and Notitfaciton Id are the same
-        print('New Med id' + medicineId.toString());
+        // The medicine Id and Notification Id are the same
+        print('New Med id: $medicineId');
         // go back
         Navigator.pop(context, medicineId);
       });
@@ -187,7 +195,7 @@ class _AddMedicineState extends State<AddMedicine> {
         width: 70,
         decoration: BoxDecoration(
           color: (index == _selectedIndex)
-              ? Theme.of(context).accentColor.withOpacity(.4)
+              ? Theme.of(context).colorScheme.secondary.withOpacity(.4)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
         ),

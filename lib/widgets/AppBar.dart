@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
   const MyAppBar({
-    Key key,
-    @required this.greenColor,
+    Key? key,
+    required this.greenColor,
   }) : super(key: key);
 
   final Color greenColor;

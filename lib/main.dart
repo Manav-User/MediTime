@@ -32,7 +32,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xff3EB16E),
-          accentColor: Color(0xff00c853),
+          colorScheme: ColorScheme.light(
+            secondary: Color(0xff00c853),
+          ),
         ),
         home: MyMedicineRemainder(),
       ),
@@ -64,7 +66,7 @@ class _MyMedicineReminder extends State<MyMedicineRemainder> {
               size: 40,
               color: Colors.white,
             ),
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
           body: SafeArea(
             child: Column(
@@ -115,7 +117,7 @@ class _MyMedicineReminder extends State<MyMedicineRemainder> {
         builder: (context) {
           return FadeAnimation(
             .6,
-            AddMedicine(height, model.getDatabase(), model.notificationManager),
+            AddMedicine(height, model.getStorage(), model.notificationManager),
           );
         });
 
@@ -124,8 +126,7 @@ class _MyMedicineReminder extends State<MyMedicineRemainder> {
           msg: "The Medicine was added!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           textColor: Colors.white,
           fontSize: 20.0);
 

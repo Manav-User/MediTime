@@ -3,14 +3,26 @@ import 'package:medicinereminder/animations/fade_animation.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../database/moor_database.dart';
 import '../models/Medicine.dart';
+import '../storage/local_storage_service.dart';
 
 class DeleteIcon extends StatefulWidget {
-  Color color = Colors.grey;
+  final Color color;
+
+  const DeleteIcon({this.color = Colors.grey});
+
   @override
   _DeleteIconState createState() => _DeleteIconState();
 }
 
 class _DeleteIconState extends State<DeleteIcon> {
+  late Color _currentColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentColor = widget.color;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -31,7 +43,7 @@ class _DeleteIconState extends State<DeleteIcon> {
                     alignment: Alignment.bottomCenter,
                     child: Icon(
                       Icons.delete,
-                      color: widget.color,
+                      color: _currentColor,
                       size: 60,
                     ),
                   ),
@@ -41,25 +53,31 @@ class _DeleteIconState extends State<DeleteIcon> {
             onWillAccept: (medicine) {
               print('onWillAccept was called');
               setState(() {
-                widget.color = Colors.red;
+                _currentColor = Colors.red;
               });
               return true;
             },
             onLeave: (v) {
               setState(() {
-                widget.color = Colors.grey;
+                _currentColor = Colors.grey;
               });
               print('onLeave');
             },
             onAccept: (medicine) {
               // remove it from the database
-              model.getDatabase().deleteMedicine(medicine);
+              final medicineToDelete = Medicine(
+                id: medicine.id,
+                name: medicine.name,
+                image: medicine.image,
+                dose: medicine.dose,
+              );
+              model.getStorage().deleteMedicine(medicineToDelete);
               //remove the medicine notifcation
               model.notificationManager.removeReminder(medicine.id);
               // for debugging
               print("medicine deleted" + medicine.toString());
               // show delete snakbar
-              Scaffold.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.red,
                   content: Text(

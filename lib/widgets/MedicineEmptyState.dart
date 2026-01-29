@@ -3,7 +3,7 @@ import 'package:medicinereminder/animations/fade_animation.dart';
 
 class MedicineEmptyState extends StatelessWidget {
   const MedicineEmptyState({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

@@ -1,20 +1,27 @@
 import 'package:medicinereminder/notifications/NotificationManager.dart';
+import 'package:medicinereminder/storage/local_storage_service.dart';
 
-import '../database/moor_database.dart';
 import '../enums/icon_enum.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MedicineModel extends Model with IconMixin {
-  final AppDatabase _database = AppDatabase();
+  final LocalStorageService _storage = LocalStorageService();
   final NotificationManager notificationManager = NotificationManager();
-  MedicineModel();
 
-  Future<List<MedicinesTableData>> getMedicineList() async {
-    return await _database.getAllMedicines();
+  MedicineModel() {
+    _initializeStorage();
   }
 
-  AppDatabase getDatabase() {
-    return _database;
+  Future<void> _initializeStorage() async {
+    await _storage.init();
+  }
+
+  Future<List<Medicine>> getMedicineList() async {
+    return await _storage.getAllMedicines();
+  }
+
+  LocalStorageService getStorage() {
+    return _storage;
   }
 
   void toggleIconState() {

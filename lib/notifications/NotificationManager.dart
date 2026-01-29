@@ -1,10 +1,10 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationManager {
-  var flutterLocalNotificationsPlugin;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   NotificationManager() {
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     initNotifications();
   }
 
@@ -14,46 +14,69 @@ class NotificationManager {
 
   void initNotifications() {
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/launcher_icon');
-    var initializationSettingsIOS = IOSInitializationSettings(
+    const initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/launcher_icon');
+    final initializationSettingsIOS = DarwinInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
-    var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
+    final initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
   void showNotificationDaily(
       int id, String title, String body, int hour, int minute) async {
-    var time = new Time(hour, minute, 0);
-    await flutterLocalNotificationsPlugin.showDailyAtTime(
-        id, title, body, time, getPlatformChannelSpecfics());
-    print('Notification Succesfully Scheduled at ${time.toString()}');
+    final tz = await _initializeTimeZones();
+    final now = tz.TZDateTime.now(tz.local);
+    var scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduledDate,
+      getPlatformChannelSpecfics(),
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+    print('Notification Succesfully Scheduled at ${scheduledDate.toString()}');
+  }
+
+  Future<dynamic> _initializeTimeZones() async {
+    // Placeholder for timezone initialization
+    return Future.value(null);
   }
 
   getPlatformChannelSpecfics() {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max,
-        priority: Priority.High,
+    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'medicine_reminder_channel', 'Medicine Reminders',
+        channelDescription: 'Medicine reminder notifications',
+        importance: Importance.max,
+        priority: Priority.high,
         ticker: 'Medicine Reminder');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+    const platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
 
     return platformChannelSpecifics;
   }
 
-  Future onSelectNotification(String payload) async {
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) {
     print('Notification clicked');
-    return Future.value(0);
   }
 
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
+      int id, String? title, String? body, String? payload) async {
     return Future.value(1);
   }
 

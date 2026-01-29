@@ -1,4 +1,6 @@
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift/drift.dart' as drift;
+
 part 'moor_database.g.dart';
 
 class MedicinesTable extends Table {
@@ -20,10 +22,10 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<MedicinesTableData>> getAllMedicines() =>
       select(medicinesTable).get();
-  Future insertMedicine(MedicinesTableData medicine) =>
+  Future<int> insertMedicine(Insertable<MedicinesTableData> medicine) =>
       into(medicinesTable).insert(medicine);
-  Future updateMedicine(MedicinesTableData medicine) =>
+  Future<bool> updateMedicine(Insertable<MedicinesTableData> medicine) =>
       update(medicinesTable).replace(medicine);
-  Future deleteMedicine(MedicinesTableData medicine) =>
+  Future<int> deleteMedicine(Insertable<MedicinesTableData> medicine) =>
       delete(medicinesTable).delete(medicine);
 }
