@@ -1,0 +1,34 @@
+﻿[INFO] Generating build script...
+[INFO] Generating build script completed, took 370ms
+
+[INFO] Initializing inputs
+[INFO] Reading cached asset graph...
+[INFO] Reading cached asset graph completed, took 136ms
+
+[INFO] Checking for updates since last build...
+[INFO] Checking for updates since last build completed, took 1.3s
+
+[INFO] Running build...
+[INFO] 1.1s elapsed, 29/77 actions completed.
+[INFO] 2.1s elapsed, 46/117 actions completed.
+[INFO] 3.1s elapsed, 109/234 actions completed.
+[INFO] 4.1s elapsed, 243/340 actions completed.
+[INFO] 8.9s elapsed, 393/424 actions completed.
+[INFO] 9.9s elapsed, 429/444 actions completed.
+[INFO] 11.1s elapsed, 485/501 actions completed.
+[INFO] 12.2s elapsed, 539/553 actions completed.
+[INFO] 13.5s elapsed, 593/608 actions completed.
+[INFO] 14.7s elapsed, 673/704 actions completed.
+[INFO] 15.8s elapsed, 756/785 actions completed.
+[INFO] 16.9s elapsed, 879/893 actions completed.
+[INFO] 27.4s elapsed, 913/925 actions completed.
+[INFO] 29.0s elapsed, 916/925 actions completed.
+[INFO] 31.2s elapsed, 916/925 actions completed.
+[INFO] 32.6s elapsed, 916/925 actions completed.
+[INFO] Running build completed, took 33.4s
+
+[INFO] Caching finalized dependency graph...
+[INFO] Caching finalized dependency graph completed, took 220ms
+
+[INFO] Succeeded after 36.3s with 900 outputs (1827 actions)
+

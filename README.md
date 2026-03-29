@@ -1,8 +1,11 @@
-# Medicine Reminder with Notifications
+# MediTime - Family Medicine Reminder App
 
-<h1> A flutter app with scheduled notifications. to remind the users to take medicines </h1>
+A robust Flutter application to track medicine reminders for your entire family. Built with Riverpod, Clean Architecture, and Firebase.
 
-![](screenshots/1.png)
-![](screenshots/2.png)
-![](screenshots/3.png)
-![](screenshots/4.png)
+## Features
+- Multi-Account Family Profiles
+- Medicine Reminders & Local Notifications
+- Firestore Offline Caching using Hive
+- Smart Dashboard
+- Custom PDF Reports of adherence
+- Dark/Light Theme based on Material 3

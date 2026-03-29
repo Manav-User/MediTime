@@ -1,0 +1,25 @@
+﻿Analyzing lib...                                                
+
+  error - Missing concrete implementations of '_$Medicine.toJson', 'getter _$Medicine.color', 'getter _$Medicine.createdAt', 'getter _$Medicine.currentStock', and 19 more - lib\domain\entities\medicine.dart:10:7 - non_abstract_class_inherits_abstract_member
+  error - Missing concrete implementations of '_$Profile.toJson', 'getter _$Profile.age', 'getter _$Profile.avatarUrl', 'getter _$Profile.id', and 3 more - lib\domain\entities\profile.dart:7:7 - non_abstract_class_inherits_abstract_member
+   info - The private field _selectedTimes could be 'final' - lib\presentation\screens\add_medicine_screen.dart:29:19 - prefer_final_fields
+   info - The private field _weekdaySelection could be 'final' - lib\presentation\screens\add_medicine_screen.dart:32:14 - prefer_final_fields
+  error - The method 'toARGB32' isn't defined for the type 'Color' - lib\presentation\screens\add_medicine_screen.dart:315:35 - undefined_method
+
+flutter : 5 issues found. 
+(ran in 4.4s)
+At line:1 char:1
++ flutter analyze lib/ 
+2>&1 | Out-File -FilePath 
+"C:\Github\MediTime\an ...
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (5  
+   issues found. (ran i   
+ n 4.4s):String) [], R    
+emoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 

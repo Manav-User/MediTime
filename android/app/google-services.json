@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "491224634443",
+    "project_id": "meditime-d8e38",
+    "storage_bucket": "meditime-d8e38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491224634443:android:9da1f94e6723166f1d69ce",
+        "android_client_info": {
+          "package_name": "com.manav"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "491224634443-1vmdhppn12sev3umvq18naglarcgbcmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manav",
+            "certificate_hash": "81349a95f5ec452076e94a3ea99d6fabd979c0c2"
+          }
+        },
+        {
+          "client_id": "491224634443-id7r0acjc55saiglpr7vkk6j5m44lhgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeu2Gkmc8IH5Nj0TLR_-7l6GbsF3cHUjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "491224634443-id7r0acjc55saiglpr7vkk6j5m44lhgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
