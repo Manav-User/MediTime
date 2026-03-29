@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
@@ -27,33 +28,33 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDeu2Gkmc8IH5Nj0TLR_-7l6GbsF3cHUjo',
-    appId: '1:491224634443:android:9da1f94e6723166f1d69ce',
-    messagingSenderId: '491224634443',
-    projectId: 'meditime-d8e38',
-    storageBucket: 'meditime-d8e38.firebasestorage.app',
-  );
+  static FirebaseOptions get android => FirebaseOptions(
+        apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY'] ?? '',
+        appId: dotenv.env['FIREBASE_ANDROID_APP_ID'] ?? '',
+        messagingSenderId:
+            dotenv.env['FIREBASE_ANDROID_MESSAGING_SENDER_ID'] ?? '',
+        projectId: dotenv.env['FIREBASE_ANDROID_PROJECT_ID'] ?? '',
+        storageBucket: dotenv.env['FIREBASE_ANDROID_STORAGE_BUCKET'] ?? '',
+      );
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAEDe5Dx2ap3JvvJUFajYVO0wwLBx_hB_k',
-    appId: '1:491224634443:web:59eddd71cccdb7de1d69ce',
-    messagingSenderId: '491224634443',
-    projectId: 'meditime-d8e38',
-    authDomain: 'meditime-d8e38.firebaseapp.com',
-    storageBucket: 'meditime-d8e38.firebasestorage.app',
-    measurementId: 'G-YYQLX3H43W',
-  );
+  static FirebaseOptions get web => FirebaseOptions(
+        apiKey: dotenv.env['FIREBASE_WEB_API_KEY'] ?? '',
+        appId: dotenv.env['FIREBASE_WEB_APP_ID'] ?? '',
+        messagingSenderId: dotenv.env['FIREBASE_WEB_MESSAGING_SENDER_ID'] ?? '',
+        projectId: dotenv.env['FIREBASE_WEB_PROJECT_ID'] ?? '',
+        authDomain: dotenv.env['FIREBASE_WEB_AUTH_DOMAIN'] ?? '',
+        storageBucket: dotenv.env['FIREBASE_WEB_STORAGE_BUCKET'] ?? '',
+        measurementId: dotenv.env['FIREBASE_WEB_MEASUREMENT_ID'] ?? '',
+      );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCqpTAWPFg2r5skCn_rg-sJhyRozQku7gg',
-    appId: '1:491224634443:ios:c437e724e019241f1d69ce',
-    messagingSenderId: '491224634443',
-    projectId: 'meditime-d8e38',
-    storageBucket: 'meditime-d8e38.firebasestorage.app',
-    androidClientId: '491224634443-1vmdhppn12sev3umvq18naglarcgbcmo.apps.googleusercontent.com',
-    iosClientId: '491224634443-s4qeeqi595d2c8npqam7gkamphmqmvr6.apps.googleusercontent.com',
-    iosBundleId: 'com.manav.meditime',
-  );
-
+  static FirebaseOptions get ios => FirebaseOptions(
+        apiKey: dotenv.env['FIREBASE_IOS_API_KEY'] ?? '',
+        appId: dotenv.env['FIREBASE_IOS_APP_ID'] ?? '',
+        messagingSenderId: dotenv.env['FIREBASE_IOS_MESSAGING_SENDER_ID'] ?? '',
+        projectId: dotenv.env['FIREBASE_IOS_PROJECT_ID'] ?? '',
+        storageBucket: dotenv.env['FIREBASE_IOS_STORAGE_BUCKET'] ?? '',
+        androidClientId: dotenv.env['FIREBASE_IOS_ANDROID_CLIENT_ID'] ?? '',
+        iosClientId: dotenv.env['FIREBASE_IOS_IOS_CLIENT_ID'] ?? '',
+        iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID'] ?? '',
+      );
 }
