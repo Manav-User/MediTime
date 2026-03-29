@@ -55,3 +55,33 @@ firebase_options.dart
 # Keys
 *.keystore
 *.jks
+
+# VS Code settings (optional - uncomment if you want to hide)
+.vscode/
+
+# Environment example (keep this - it's safe to push)
+# .env.example  ← don't add this, let it be public
+
+# Web builds
+/web/firebase-config.js
+
+# Dart generated files
+*.g.dart
+*.freezed.dart
+
+# Coverage
+coverage/
+lcov.info
+
+# Test cache
+.test_results/
+
+# Windows specific
+Thumbs.db
+
+# Sensitive config
+*.p8
+*.p12
+*.cer
+**/secrets/
+**/private/
